@@ -9,6 +9,7 @@ const registerUser = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("All fields are mandatory!");
     }
+    
     const userAvailable = await User.findOne({ email });
     if (userAvailable) {
       res.status(400);
