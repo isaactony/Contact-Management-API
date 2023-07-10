@@ -8,6 +8,7 @@ router.post("/register", registerUser);
 
 router.post("/login", loginUser);
 
+//only authorized users can access this endpoint
 router.get("/current", validateToken, currentUser);
 
 module.exports = router;

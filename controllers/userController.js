@@ -36,8 +36,10 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
 
-const loginUser = asyncHandler(async (req, res) => {    
+const loginUser = asyncHandler(async (req, res) => {   
+    //fetch email and password 
     const {email, password } = req.body;
+    //check if email and password is present
     if (!email || !password) {
         res.status(400);
         throw new Error("All fields are required");
@@ -51,10 +53,10 @@ const loginUser = asyncHandler(async (req, res) => {
             email: user.email,
             id: user.id
         }
-    }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "5m"})
-
+    }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "50m"})
+    //check if the user is register and then compare password entered and the hashed password in database
     if (user && (await bcrypt.compare(password, user.password))) {
-        
+        //if password is correct provide access token in the response
         res.status(200).json({accessToken})
 
     } else {
@@ -65,7 +67,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const currentUser = asyncHandler(async (req, res) => {
-  res.json({ message: "Current user information!" });
+  res.json(req.user);
 });
 
 module.exports = {
